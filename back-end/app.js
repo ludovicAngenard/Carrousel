@@ -3,20 +3,25 @@ const koa = require("koa");
 const serve = require("koa-static");
 const router = require("koa-router")();
 const index = require("./routes/index");
-const views = require("koa-views");
-const mongoose = require('mongoose');
-
-var mongoDB = 'mongodb://127.0.0.1/carrousel';
-mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true});
-
-//Get the default connection
-var db = mongoose.connection;
-
-//Bind connection to error event (to get notification of connection errors)
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-//const logger = require("./middleware/logger");
-console.log(db);
+const photo = require("./routes/photo");
+const logger = require("./middleware/logger")
 const PORT = process.env.PORT || 3000;
+
+var mongoose = require("mongoose");
+var Photo = require("./model/Photo.js");
+mongoose.connect(
+    "mongodb://localhost:27017/carrousel",
+    {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    });
+
+const app = new Koa();
+app.use(logger());
+
+// end-point
+router.use("/",index.routes());
+router.use("/photo", index.routes())
 
 const app = new koa();
 //app.use(logger());
