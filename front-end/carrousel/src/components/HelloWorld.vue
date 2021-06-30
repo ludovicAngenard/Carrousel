@@ -28,13 +28,30 @@
       <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
     </ul>
   </div>
+
+  <button>bob</button>
 </template>
 
 <script>
+
+const axios = require('axios');
+
 export default {
   name: 'HelloWorld',
   props: {
     msg: String
+  },
+  data () {
+    return  {
+
+    }
+  },methods : {
+
+    test () {
+      axios.get('test').then(function (response) {
+        console.log(response)
+      })
+    }
   }
 }
 </script>
