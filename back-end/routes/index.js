@@ -4,8 +4,10 @@ router.get("/",function (ctx,next){
     ctx.state= {
         title : "Campus Academy"
     };
-    var json = {"title": "ceci est un titre"}
-    return json;
+    let json = {"title": "ceci est un titre"}
+    ctx.body = {
+        json
+    };
 });
 
 module.exports = router;

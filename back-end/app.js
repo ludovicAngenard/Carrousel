@@ -1,5 +1,5 @@
 const path = require("path");
-
+const cors = require('@koa/cors');
 const Koa = require("koa");
 const serve = require("koa-static");
 const router = require("koa-router")();
@@ -8,6 +8,8 @@ const logger = require("./middleware/logger")
 const PORT = process.env.PORT || 3000;
 
 const app = new Koa();
+app.use(cors());
+
 app.use(logger());
 
 // end-point

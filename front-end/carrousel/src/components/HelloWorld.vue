@@ -29,7 +29,7 @@
     </ul>
   </div>
 
-  <button>bob</button>
+  <button @click="test">bob</button>
 </template>
 
 <script>
@@ -47,10 +47,11 @@ export default {
     }
   },methods : {
 
-    test () {
-      axios.get('test').then(function (response) {
+    async test () {
+      await axios.get('http://localhost:3000/', {
+      }).then(function (response) {
         console.log(response)
-      })
+      });
     }
   }
 }
