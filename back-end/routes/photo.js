@@ -1,17 +1,18 @@
 const router = require("koa-router")();
+
 const photoController = require("../controller/Photo.js")
 
 
-router.get("/photo", function(ctx,next) {
-    console.log(JSON.stringify(photoController))
-    next();
-});
-router.get("/photo/:id", function(ctx,next) {
-    console.log(JSON.stringify(photoController))
-    next();
-});
-router.post("/photo", function(ctx,next) {
-    console.log(JSON.stringify(photoController))
+router.get("/", async function(ctx,next) {
+    await photoController.photo_list(ctx)
+    await next();
+})
+.get("/:id", async function(ctx,next) {
+    await photoController.photo_detail(ctx)
+    await next();
+})
+.post("/", function(ctx,next) {
+    photoController.photo_create_post(ctx)
     next();
 });
 
