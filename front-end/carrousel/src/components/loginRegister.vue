@@ -1,5 +1,7 @@
 <template>
     <div>
+
+      <!--    Form pour se connecter  -->
       <div v-if="connect">
         <section class="vh-100">
           <div class="container-fluid h-custom">
@@ -18,14 +20,12 @@
                 </div>
 
                 <form>
-                  <!-- Email input -->
                   <div class="form-outline mb-4">
                     <input type="email" id="form3Example3" class="form-control form-control-lg"
                            placeholder="Enter your user" v-model="user"/>
                     <label class="form-label" for="form3Example3">User</label>
                   </div>
 
-                  <!-- Password input -->
                   <div class="form-outline mb-3">
                     <input type="password" id="form3Example4" class="form-control form-control-lg"
                            placeholder="Enter password" v-model="password"/>
@@ -44,6 +44,10 @@
           </div>
         </section>
       </div>
+
+
+
+<!--    Form pour s'incrire  -->
       <div v-else>
         <section class="vh-100">
           <div class="container-fluid h-custom">
@@ -61,7 +65,6 @@
                       <strong class="font__weight-semibold">Warning!</strong> Your password is different
                     </div>
                   </div>
-                  <!-- Email input -->
                   <div class="form-outline mb-4">
                     <input type="email" id="user" class="form-control form-control-lg"
                            placeholder="Enter your new user" v-model="user"/>
@@ -72,7 +75,6 @@
                            placeholder="Enter your password" v-model="password"/>
                     <label class="form-label" for="password">Password</label>
                   </div>
-                  <!-- Password input -->
                   <div class="form-outline mb-3">
                     <input type="password" id="confirmPassword" class="form-control form-control-lg"
                            placeholder="Enter your password" v-model="confirmPassword"/>
@@ -116,7 +118,7 @@ export default {
   },
   methods: {
 
-    register () {
+    register () { // function pour changer de vue
       this.$data.user = ''
       this.$data.password = ''
       this.$data.confirmPassword = ''
@@ -124,7 +126,7 @@ export default {
       this.$data.connect = !this.$data.connect;
     },
 
-    async connectApi () {
+    async connectApi () { // fonction pour ce connecter
       if (this.$data.user === '' || this.$data.password === '') {
         this.error = true
       }else {
@@ -138,7 +140,7 @@ export default {
       }
     },
 
-    async registerApi () {
+    async registerApi () { // fonction pour s'incrire
       if (this.$data.user === '' || this.$data.password === '' || this.$data.confirmPassword === '') {
         this.error = 1
       }else if (this.$data.password !== this.$data.confirmPassword) {
