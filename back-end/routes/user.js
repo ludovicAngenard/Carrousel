@@ -1,7 +1,7 @@
 const router = require("koa-router")();
 const userController = require("../controller/User.js")
 
-router.post("/:id", async function(ctx,next) {
+router.post("/login", async function(ctx,next) {
     await userController.login(ctx)
     await next();
 })
@@ -9,5 +9,7 @@ router.post("/:id", async function(ctx,next) {
     userController.register(ctx)
     next();
 });
+
+
 
 module.exports = router;
