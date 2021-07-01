@@ -5,6 +5,7 @@
       <img v-bind:src="onePicture" alt="">
     </div>
     <div>
+<!--      boutton pour recher une nouvelle photo-->
       <button type="button" class="btn btn-dark" @click="pictureRandom">Photo aléatoire</button>
     </div>
   </div>
@@ -28,7 +29,7 @@ export default {
   },
   methods: {
 
-    async apiOnePicture () {
+    async apiOnePicture () { // Afficher une seul image selon l'id
       let one = ""
       await axios.get('http://localhost:3000/photo/'+ this.$route.params.id, {
       }).then(function (response) {
@@ -38,7 +39,7 @@ export default {
       this.$data.onePicture = one
     },
 
-    async pictureRandom () {
+    async pictureRandom () { // prendre un nombre aléatoire et appeller l'api pour avoir une photo
       let one = ""
 
       let randomNumber = Math.floor(Math.random() * this.$data.picture.length);
@@ -50,7 +51,7 @@ export default {
 
     },
 
-    async allPicture () {
+    async allPicture () { // permet d'avoir toutes les images
 
       let allPicture = undefined
       await axios.get('http://localhost:3000/photo', {

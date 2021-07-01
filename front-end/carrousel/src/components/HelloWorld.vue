@@ -1,6 +1,7 @@
 <template>
   <div class="body">
     <div>
+<!-- carousel des images     -->
       <div class="carousel mt-5">
         <ul class="slides">
           <div  v-for="(value,index) in img" v-bind:key="index">
@@ -26,10 +27,12 @@
             </li>
           </div>
         </ul>
+<!--      boutton pour sipprimer l'image actif  -->
         <button  @click="deletePicture" type="button" class="btn btn-danger mt-1">Supprimer la photo actif</button>
 
-      </div>
 
+<!--      Message pour dire que l'image a bien été envoyer  -->
+      </div>
       <div class="container mt-5" v-if="validInput">
         <div class="col-sm-12">
           <div class="alert fade alert-simple alert-success alert-dismissible text-left font__family-montserrat font__size-16 font__weight-light brk-library-rendered rendered show">
@@ -39,6 +42,8 @@
         </div>
       </div>
 
+
+<!--     Input pour rajouter une image -->
       <div class="container mt-5">
         <label for="basic-url" class="form-label">Url de votre photo</label>
         <div class="input-group mb-3">
@@ -85,7 +90,7 @@ export default {
       this.$data.actually = id
     },
 
-    async allPicture () {
+    async allPicture () { // fonction qui permet d'avoir toutes les images
 
       let format = []
       let allPicture = undefined
@@ -103,7 +108,7 @@ export default {
       this.$data.picture = allPicture
       this.$data.img = format
     },
-    async addPicture (link) {
+    async addPicture (link) { // fonction qui permet d'ajouter une image
       this.$data.validInput = false
 
       let result = false
@@ -121,7 +126,7 @@ export default {
       await this.allPicture()
     },
 
-    pictureRandom () {
+    pictureRandom () { // fonction qui push une nouvelle url avec une image random
       let randomNumber = Math.floor(Math.random() * this.$data.picture.length);
       this.$router.push({
         name: "picture",
@@ -132,7 +137,7 @@ export default {
       })
     },
 
-    async deletePicture () {
+    async deletePicture () { // function qui supprime une image
 
       console.log(this.$data.actually)
       let result = false
