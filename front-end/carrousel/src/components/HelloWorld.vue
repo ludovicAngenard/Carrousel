@@ -1,32 +1,33 @@
 <template>
   <div class="body">
     <div>
-
       <div class="carousel mt-5">
         <ul class="slides">
           <div  v-for="(value,index) in img" v-bind:key="index">
             <input type="radio" name="radio-buttons" v-bind:id="value.id" checked />
             <li class="slide-container">
               <div class="slide-image image-wrap">
-                <img v-bind:src="value.lien">
+                <img v-bind:src="value.lien" alt="bob">
               </div>
               <div class="carousel-controls">
-                <label v-if="value.id === '1'" v-bind:for="img.length" class="prev-slide">
+                <label v-if="value.id === '1'" v-bind:for="img.length" class="prev-slide" @click="pictureActually(value.id-1)">
                   <span>&lsaquo;</span>
                 </label>
-                <label v-else v-bind:for="value.id-1" class="prev-slide">
+                <label v-else v-bind:for="value.id-1" class="prev-slide" @click="pictureActually(value.id-1)">
                   <span>&lsaquo; </span>
                 </label>
-                <label v-if="value.id === img.length.toString()" v-bind:for="img[0]['id']" class="next-slide">
+                <label v-if="value.id === img.length.toString()" v-bind:for="img[0]['id']" class="next-slide" @click="pictureActually(parseInt(value.id)+1)">
                   <span>&rsaquo;</span>
                 </label>
-                <label v-else v-bind:for="img[index+1]['id']" class="next-slide">
+                <label v-else v-bind:for="img[index+1]['id']" class="next-slide" @click="pictureActually(parseInt(value.id)+1)">
                   <span>&rsaquo;</span>
                 </label>
               </div>
             </li>
           </div>
         </ul>
+        <button  @click="deletePicture" type="button" class="btn btn-danger mt-1">Supprimer la photo actif</button>
+
       </div>
 
       <div class="container mt-5" v-if="validInput">
@@ -71,12 +72,18 @@ export default {
       link: '',
       img: undefined,
       picture: undefined,
-      validInput: false
+      validInput: false,
+      actually: undefined,
     }
   },async mounted() {
     await this.allPicture()
+    this.pictureActually(this.$data.img.length)
   },
   methods : {
+
+    pictureActually (id) {
+      this.$data.actually = id
+    },
 
     async allPicture () {
 
@@ -88,7 +95,8 @@ export default {
         for (let i = 1; i < response['data'].length+1; i++) {
           format.push({
             'id': i.toString(),
-            'lien': response['data'][i-1]['link']
+            'lien': response['data'][i-1]['link'],
+            '_id': response['data'][i-1]['_id']
           })
         }
       });
@@ -122,6 +130,30 @@ export default {
 
         }
       })
+    },
+
+    async deletePicture () {
+
+      console.log(this.$data.actually)
+      let result = false
+      let idP = undefined
+      if (this.$data.actually === 0) {
+        idP = this.$data.img.length
+      }else if (this.$data.actually === 4) {
+        idP = 1
+      }else {
+        idP = this.$data.actually
+      }
+      await axios.delete('http://localhost:3000/photo/' + this.$data.img[idP-1]['_id'], {
+
+      }).then(function (response) {
+        if (response['data']['valid'] === "valid delete") {
+          result = true
+        }
+      });
+      if (result) {
+        await this.allPicture()
+      }
     }
   }
 }

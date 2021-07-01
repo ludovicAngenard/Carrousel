@@ -30,10 +30,14 @@ exports.login = async function(ctx) {
         console.log(JSON.stringify(user))
         if (!user || !user.comparePassword(ctx.request.body.password)) {
             console.log("vous n'êtes pas connecté")
-            ctx.body = await "marche pas"
+            ctx.body = {
+                'valid': 'pas connect'
+            }
         } else{
             console.log("vous êtes connectés")
-            ctx.body = await "marche"
+            ctx.body = {
+                'valid': 'connect'
+            }
         }
 
     });
