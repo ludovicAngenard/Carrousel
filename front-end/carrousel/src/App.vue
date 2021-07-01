@@ -9,7 +9,13 @@
         <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <router-link class="nav-link active text-white"  to="/about">Login / register</router-link>
+              <router-link class="nav-link active text-white"  to="/about">Login / register </router-link>
+            </li>
+            <li class="nav-item">
+              <router-link class="nav-link active text-white"  to="/about"> {{ name }}</router-link>
+            </li>
+            <li class="nav-item" v-if="name">
+              <div class="nav-link active text-white" style="cursor: pointer" @click="clear">Déconnection</div>
             </li>
           </ul>
         </div>
@@ -18,6 +24,30 @@
   </div>
   <router-view/>
 </template>
+<script>
+
+
+export default {
+  name: 'app',
+  props: {
+    msg: String
+  },
+  data () {
+    return  {
+      name: '',
+    }
+  },mounted() {
+    this.$data.name = localStorage.name
+  },
+  methods: {
+
+    clear () {
+      localStorage.clear()
+      window.location = '/'
+    }
+  }
+}
+</script>
 
 <style>
 </style>

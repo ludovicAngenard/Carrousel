@@ -28,7 +28,7 @@
           </div>
         </ul>
 <!--      boutton pour sipprimer l'image actif  -->
-        <button  @click="deletePicture" type="button" class="btn btn-danger mt-1">Supprimer la photo actif</button>
+        <button v-if="role === 'Admin'"  @click="deletePicture" type="button" class="btn btn-danger mt-1">Supprimer la photo actif</button>
 
 
 <!--      Message pour dire que l'image a bien été envoyer  -->
@@ -44,7 +44,7 @@
 
 
 <!--     Input pour rajouter une image -->
-      <div class="container mt-5">
+      <div class="container mt-5" v-if="role !== undefined">
         <label for="basic-url" class="form-label">Url de votre photo</label>
         <div class="input-group mb-3">
           <span class="input-group-text" id="basic-addon3">https://example.com/photo/</span>
@@ -79,8 +79,10 @@ export default {
       picture: undefined,
       validInput: false,
       actually: undefined,
+      role: undefined
     }
   },async mounted() {
+    this.$data.role = localStorage.role
     await this.allPicture()
     this.pictureActually(this.$data.img.length)
   },
