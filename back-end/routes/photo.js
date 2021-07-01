@@ -12,7 +12,11 @@ router.get("/", async function(ctx,next) {
     await next();
 })
 .post("/", function(ctx,next) {
-    photoController.photo_create_post(ctx)
+    photoController.photo_create_photo(ctx)
+    next();
+})
+.delete("/:id", function(ctx,next) {
+    photoController.photo_delete_photo(ctx)
     next();
 });
 

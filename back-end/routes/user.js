@@ -1,8 +1,12 @@
 const router = require("koa-router")();
+const userController = require("../controller/User.js")
 
-
-router.get("/", function(ctx,next) {
-    console.log("user")
+router.post("/:id", async function(ctx,next) {
+    await userController.login(ctx)
+    await next();
+})
+.post("/",  function(ctx,next) {
+    userController.register(ctx)
     next();
 });
 

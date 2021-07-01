@@ -1,16 +1,10 @@
+
 const mongoose = require('mongoose');
 
-const Schema = mongoose.Schema;
+bcrypt = require('bcrypt'),
+Schema = mongoose.Schema;
 
 const UsersSchema = new Schema({
-  firstname: {
-    type : String,
-    required : true
-  },
-  lastname: {
-    type : String,
-    required : true
-  },
   username: {
     type : String,
     required : true
@@ -19,23 +13,21 @@ const UsersSchema = new Schema({
     type : String,
     required : true
   },
-  mail: {
-    type : String,
+  role:{
+    type: String,
     required : true
-  },
-  phone_number: {
-    type : String,
-    required : true
-  },
-  city: {
-    type : String,
-    required : true
-  },
-  Postal: {
-    type : Int16Array,
-    required : true
-  },
+  }
 });
+
+UsersSchema.methods.comparePassword = function(password) {
+  return bcrypt.compareSync(password, this.password);
+};
+UsersSchema.methods.compareUsername = function(username) {
+  if( username == this.username){
+    return true;
+  }
+};
+
 
 const Users = mongoose.model('Users',UsersSchema);
 

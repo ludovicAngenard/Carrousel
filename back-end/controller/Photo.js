@@ -14,8 +14,7 @@ exports.photo_detail = async function(ctx) {
     ctx.body = await photo
 };
 
-exports.photo_create_post = function(ctx) {
-    console.log('controller post : '+  JSON.stringify(ctx.request.body))
+exports.photo_create_photo = function(ctx) {
     var photo = new Photo({
         link: ctx.request.body.link,
       })
@@ -24,4 +23,12 @@ exports.photo_create_post = function(ctx) {
         console.log("Nouvelle photo ajouté:",doc.link, doc._id);
         });
 
+};
+
+exports.photo_delete_photo = function(ctx) {
+    Photo.deleteOne({ "_id": `${ctx.params.id}`}).then(function(){
+        console.log("Data deleted"); // Success
+    }).catch(function(error){
+        console.log(error); // Failure
+    });
 };
