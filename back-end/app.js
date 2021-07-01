@@ -1,5 +1,6 @@
 const path = require("path");
 const koa = require("koa");
+const cors = require('@koa/cors');
 const router = require("koa-router")();
 var bodyParser = require('koa-bodyparser');
 const user = require("./routes/user");
@@ -15,6 +16,7 @@ mongoose.connect(
         useUnifiedTopology: true
     });
 const app = new koa();
+app.use(cors());
 app.use(logger());
 
 // end-point

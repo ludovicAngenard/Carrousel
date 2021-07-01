@@ -23,5 +23,6 @@ exports.photo_create_post = function(ctx) {
       photo.save().then((doc)=>{
         console.log("Nouvelle photo ajouté:",doc.link, doc._id);
         });
+    ctx.body = { "valid":"valid input" }
 
 };

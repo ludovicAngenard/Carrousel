@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/ludovicAngenard/Carrousel#readme",
   "dependencies": {
+    "@koa/cors": "^3.1.0",
     "ejs": "^3.1.6",
     "koa": "^2.13.1",
     "koa-bodyparser": "^4.3.0",

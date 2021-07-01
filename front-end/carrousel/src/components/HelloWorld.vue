@@ -1,12 +1,13 @@
 <template>
   <div class="body">
     <div>
+
       <div class="carousel mt-5">
         <ul class="slides">
           <div  v-for="(value,index) in img" v-bind:key="index">
             <input type="radio" name="radio-buttons" v-bind:id="value.id" checked />
             <li class="slide-container">
-              <div class="slide-image">
+              <div class="slide-image image-wrap">
                 <img v-bind:src="value.lien">
               </div>
               <div class="carousel-controls">
@@ -27,7 +28,29 @@
           </div>
         </ul>
       </div>
+
+      <div class="container mt-5" v-if="validInput">
+        <div class="col-sm-12">
+          <div class="alert fade alert-simple alert-success alert-dismissible text-left font__family-montserrat font__size-16 font__weight-light brk-library-rendered rendered show">
+            <i class="start-icon far fa-check-circle faa-tada animated"></i>
+            <strong class="font__weight-semibold">Ajouter !</strong> Votre photo est ajoutée à la liste !
+          </div>
+        </div>
+      </div>
+
+      <div class="container mt-5">
+        <label for="basic-url" class="form-label">Url de votre photo</label>
+        <div class="input-group mb-3">
+          <span class="input-group-text" id="basic-addon3">https://example.com/photo/</span>
+          <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" v-model="link">
+          <button type="button" class="btn btn-secondary" @click="addPicture(link)">Ajouter</button>
+          <button type="button" class="btn btn-dark" @click="pictureRandom">Photo aléatoire</button>
+        </div>
+      </div>
+
     </div>
+
+
 
   </div>
 
@@ -45,32 +68,60 @@ export default {
   },
   data () {
     return  {
-      img: [
-        {
-          'id': '1',
-          'lien': 'https://s1.qwant.com/thumbr/0x380/1/8/da98c75d97df560eb8b318a3da4878c1a9ed754634b2ea14b5e4820dd8f7fc/Lapin-nain-en-exterieur-731x1024.jpg?u=https%3A%2F%2Fmonsieur-lapin.com%2Fwp-content%2Fuploads%2F2020%2F12%2FLapin-nain-en-exterieur-731x1024.jpg&q=0&b=1&p=0&a=0'
-        },
-        {
-          'id': '2',
-          'lien':'https://s2.qwant.com/thumbr/0x380/4/9/8edacb8d5d7b323df03b3aad3936f85202244077a068d04138f2bbb3430d39/cochon-d-inde-rongeur-17-48-32.jpeg?u=https%3A%2F%2Fwww.animal.ch%2Fuploads%2F2020%2F04%2Fcochon-d-inde-rongeur-17-48-32.jpeg&q=0&b=1&p=0&a=0'
-        },
-        {
-          'id': '3',
-          'lien':'https://s2.qwant.com/thumbr/0x0/5/3/12907660ae635e0377820a85e3b73d5d40f0489c159ee962935374440aa93b/hasmter_sirio_adulto-300x300.jpg?u=http%3A%2F%2Fportalmelhoresamigos.com.br%2Fwp-content%2Fuploads%2F2015%2F07%2Fhasmter_sirio_adulto-300x300.jpg&q=0&b=1&p=0&a=0'
-        },
-        {
-          'id': '4',
-          'lien':'https://s1.qwant.com/thumbr/0x380/0/3/e1aa4bed7084fa35a6bb25036c889e20efe214514e6b99c80778731aaa9973/branch-mouse-wildlife-mammal-squirrel-rodent-fauna-vertebrate-marsupial-florida-andymorffew-morffew-269042.jpg?u=https%3A%2F%2Fget.pxhere.com%2Fphoto%2Fbranch-mouse-wildlife-mammal-squirrel-rodent-fauna-vertebrate-marsupial-florida-andymorffew-morffew-269042.jpg&q=0&b=1&p=0&a=0'
-        }
-      ]
+      link: '',
+      img: undefined,
+      picture: undefined,
+      validInput: false
     }
-  },methods : {
+  },async mounted() {
+    await this.allPicture()
+  },
+  methods : {
 
-    async test () {
-      await axios.get('http://localhost:3000/', {
+    async allPicture () {
+
+      let format = []
+      let allPicture = undefined
+      await axios.get('http://localhost:3000/photo', {
       }).then(function (response) {
-        console.log(response)
+        allPicture = response['data']
+        for (let i = 1; i < response['data'].length+1; i++) {
+          format.push({
+            'id': i.toString(),
+            'lien': response['data'][i-1]['link']
+          })
+        }
       });
+      this.$data.picture = allPicture
+      this.$data.img = format
+    },
+    async addPicture (link) {
+      this.$data.validInput = false
+
+      let result = false
+      await axios.post('http://localhost:3000/photo', {
+          "link" : link
+      }).then(function (response) {
+
+        console.log(response)
+        if (response['data']['valid'] === "valid input") {
+          result = true
+        }
+      });
+      this.$data.validInput = result;
+      this.$data.link = ""
+      await this.allPicture()
+    },
+
+    pictureRandom () {
+      let randomNumber = Math.floor(Math.random() * this.$data.picture.length);
+      this.$router.push({
+        name: "picture",
+        params: {
+          id : this.$data.picture[randomNumber]['_id']
+
+        }
+      })
     }
   }
 }
@@ -78,6 +129,63 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+.image-wrap {
+  width: 100%;
+  height: 50vw;
+  margin: 0 auto;
+  overflow: hidden;
+  position: relative;
+}
+
+img {
+  width: 100%;
+  animation: move 40s ease;
+  /* Add infinite to loop. */
+
+  -ms-animation: move 40s ease;
+  -webkit-animation: move 40s ease;
+  -moz-animation: move 40s ease;
+  position: absolute;
+}
+
+@-webkit-keyframes move {
+  0% {
+    -webkit-transform-origin: bottom left;
+    -moz-transform-origin: bottom left;
+    -ms-transform-origin: bottom left;
+    -o-transform-origin: bottom left;
+    transform-origin: bottom left;
+    transform: scale(1.0);
+    -ms-transform: scale(1.0);
+    /* IE 9 */
+
+    -webkit-transform: scale(1.0);
+    /* Safari and Chrome */
+
+    -o-transform: scale(1.0);
+    /* Opera */
+
+    -moz-transform: scale(1.0);
+    /* Firefox */
+  }
+  100% {
+    transform: scale(1.2);
+    -ms-transform: scale(1.2);
+    /* IE 9 */
+
+    -webkit-transform: scale(1.2);
+    /* Safari and Chrome */
+
+    -o-transform: scale(1.2);
+    /* Opera */
+
+    -moz-transform: scale(1.2);
+    /* Firefox */
+  }
+}
+
+
 
 .carousel {
   margin-left: 15%;
