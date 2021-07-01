@@ -127,15 +127,20 @@ export default {
     },
 
     async connectApi () { // fonction pour ce connecter
+      localStorage.clear()
       if (this.$data.user === '' || this.$data.password === '') {
         this.error = true
       }else {
         this.error = false
-        await axios.post('http://localhost:3000/user/id', {
+        await axios.post('http://localhost:3000/user/login', {
           "username": this.$data.user,
           "password": this.$data.password
         }).then(function (response) {
-          console.log(response)
+          if (response.data.username !== '') {
+            localStorage.name = response.data.username
+            localStorage.role = response.data.role
+            window.location = '/'
+          }
         });
       }
     },

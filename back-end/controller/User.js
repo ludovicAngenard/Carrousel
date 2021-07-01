@@ -32,6 +32,5 @@ exports.login = async function(ctx) {
     } else{
         console.log("vous êtes connectés")
         ctx.body = await user
-        await ctx.redirect('localhost:3000/');
     }
 };
