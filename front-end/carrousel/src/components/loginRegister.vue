@@ -100,6 +100,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "loginRegister",
   data () {
@@ -122,19 +124,33 @@ export default {
       this.$data.connect = !this.$data.connect;
     },
 
-    connectApi () {
+    async connectApi () {
       if (this.$data.user === '' || this.$data.password === '') {
         this.error = true
+      }else {
+        this.error = false
+        await axios.post('http://localhost:3000/user/id', {
+          "username": this.$data.user,
+          "password": this.$data.password
+        }).then(function (response) {
+          console.log(response)
+        });
       }
     },
 
-    registerApi () {
+    async registerApi () {
       if (this.$data.user === '' || this.$data.password === '' || this.$data.confirmPassword === '') {
         this.error = 1
       }else if (this.$data.password !== this.$data.confirmPassword) {
         this.error = 2
       }else {
         this.error= false
+        await axios.post('http://localhost:3000/user', {
+          "username": this.$data.user,
+          "password": this.$data.password
+        }).then(function (response) {
+          console.log(response)
+        });
       }
     }
 

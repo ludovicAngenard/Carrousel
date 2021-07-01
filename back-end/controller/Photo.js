@@ -32,4 +32,5 @@ exports.photo_delete_photo = function(ctx) {
     }).catch(function(error){
         console.log(error); // Failure
     });
+    ctx.body = { "valid":"valid delete" }
 };
