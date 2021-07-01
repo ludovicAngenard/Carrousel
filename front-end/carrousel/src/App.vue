@@ -15,7 +15,7 @@
               <router-link class="nav-link active text-white"  to="/about"> {{ name }}</router-link>
             </li>
             <li class="nav-item" v-if="name">
-              <div class="nav-link active text-white" style="cursor: pointer" @click="clear">Déconnection</div>
+              <div class="nav-link active text-white" style="cursor: pointer" @click="clear">Déconnexion</div>
             </li>
           </ul>
         </div>

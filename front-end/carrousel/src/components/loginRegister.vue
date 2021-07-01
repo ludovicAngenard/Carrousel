@@ -65,6 +65,11 @@
                       <strong class="font__weight-semibold">Warning!</strong> Your password is different
                     </div>
                   </div>
+                  <div class="col-sm-12" v-if="compteCreer">
+                    <div class="alert fade alert-simple alert-warning show" role="alert" data-brk-library="component__alert">
+                      <strong class="font__weight-semibold">compte Créé</strong> Votre compte a bien été créé, Veuilliez retournez sur la page login.
+                    </div>
+                  </div>
                   <div class="form-outline mb-4">
                     <input type="email" id="user" class="form-control form-control-lg"
                            placeholder="Enter your new user" v-model="user"/>
@@ -113,7 +118,9 @@ export default {
 
       password: '',
       confirmPassword: '',
-      user: ''
+      user: '',
+
+      compteCreer: false
     }
   },
   methods: {
@@ -123,7 +130,8 @@ export default {
       this.$data.password = ''
       this.$data.confirmPassword = ''
       this.error = false
-      this.$data.connect = !this.$data.connect;
+      this.$data.connect = !this.$data.connect
+      this.$data.compteCreer = false
     },
 
     async connectApi () { // fonction pour ce connecter
@@ -152,12 +160,14 @@ export default {
         this.error = 2
       }else {
         this.error= false
+        this.$data.compteCreer = true
         await axios.post('http://localhost:3000/user', {
           "username": this.$data.user,
           "password": this.$data.password
         }).then(function (response) {
           console.log(response)
         });
+        
       }
     }
 
