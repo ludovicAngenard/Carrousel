@@ -11,7 +11,7 @@ Vous devez installer node.js et installer tous les nodes modules du back-end en 
 
 ## Installation
 * Pour lancer le serveur vous devez éxécuter la commande *node app.js* dans /back-end
-* Pour accéder à l'application via votre navigateur, vous devez éxécuter la commande *npm run serv* dans /front-end/carrousel
+* Pour accéder à l'application via votre navigateur, vous devez éxécuter la commande *npm run serve* dans /front-end/carrousel
 
 ## Utilisation
 Un utilisateur peut s'inscrire et se connecter. Une fois inscrit il est obligé de se connecter ensuite.
