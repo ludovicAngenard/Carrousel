@@ -1,5 +1,23 @@
 <template>
-  <div class="about">
-    <h1>This is an about page</h1>
+  <div class="lr">
+    <loginRegister/>
   </div>
 </template>
+
+
+<script>
+// @ is an alias to /src
+import loginRegister from '@/components/loginRegister'
+
+export default {
+  name: 'lr',
+  components: {
+    loginRegister
+  }
+}
+</script>
+
+<style>
+
+
+</style>

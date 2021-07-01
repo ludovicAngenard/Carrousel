@@ -1,13 +1,10 @@
 const router = require("koa-router")();
 
-router.get("/",function (ctx,next){
+router.get("/",async function(ctx,next){
     ctx.state= {
         title : "Campus Academy"
     };
-    let json = {"title": "ceci est un titre"}
-    ctx.body = {
-        json
-    };
+    await ctx.render("index");
 });
 
 module.exports = router;
