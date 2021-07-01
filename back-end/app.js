@@ -1,5 +1,6 @@
 const path = require("path");
 const koa = require("koa");
+const cors = require('@koa/cors');
 const router = require("koa-router")();
 var bodyParser = require('koa-bodyparser');
 const user = require("./routes/user");
@@ -17,6 +18,7 @@ mongoose.connect(
 const app = new koa();
 
 app.use(createAdmin());
+app.use(cors());
 
 // end-point
 router.use("/user",user.routes());
